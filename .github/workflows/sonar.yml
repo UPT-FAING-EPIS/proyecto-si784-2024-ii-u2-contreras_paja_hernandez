@@ -23,7 +23,6 @@ jobs:
         with:
           dotnet-version: 8.x  
 
- 
       - name: Restore, Test, and Analyze with SonarCloud
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Configura este secreto en tu repositorio
