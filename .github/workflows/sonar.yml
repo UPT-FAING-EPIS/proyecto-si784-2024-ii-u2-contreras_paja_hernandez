@@ -3,10 +3,13 @@ name: "SonarCloud Analysis for .NET"
 on:
   push:
     branches:
-      - main  
+      - main
+      - alvaro
   pull_request:
     branches:
       - main
+      - alvaro
+
 
 jobs:
   sonarcloud:
