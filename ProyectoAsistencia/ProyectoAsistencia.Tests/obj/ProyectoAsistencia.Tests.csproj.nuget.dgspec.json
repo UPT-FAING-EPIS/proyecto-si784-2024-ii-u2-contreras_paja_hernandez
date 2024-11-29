@@ -1,36 +1,33 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\angel\\Documents\\Calidad\\calidad x2\\PROYECTO\\snyx\\proyecto-si784-2024-ii-u2-contreras_paja_hernandez\\ProyectoAsistencia\\ProyectoAsistencia.Tests\\ProyectoAsistencia.Tests.csproj": {}
+    "/home/runner/work/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/ProyectoAsistencia/ProyectoAsistencia.Tests/ProyectoAsistencia.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\angel\\Documents\\Calidad\\calidad x2\\PROYECTO\\snyx\\proyecto-si784-2024-ii-u2-contreras_paja_hernandez\\ProyectoAsistencia\\ProyectoAsistencia.Tests\\ProyectoAsistencia.Tests.csproj": {
+    "/home/runner/work/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/ProyectoAsistencia/ProyectoAsistencia.Tests/ProyectoAsistencia.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\angel\\Documents\\Calidad\\calidad x2\\PROYECTO\\snyx\\proyecto-si784-2024-ii-u2-contreras_paja_hernandez\\ProyectoAsistencia\\ProyectoAsistencia.Tests\\ProyectoAsistencia.Tests.csproj",
+        "projectUniqueName": "/home/runner/work/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/ProyectoAsistencia/ProyectoAsistencia.Tests/ProyectoAsistencia.Tests.csproj",
         "projectName": "ProyectoAsistencia.Tests",
-        "projectPath": "C:\\Users\\angel\\Documents\\Calidad\\calidad x2\\PROYECTO\\snyx\\proyecto-si784-2024-ii-u2-contreras_paja_hernandez\\ProyectoAsistencia\\ProyectoAsistencia.Tests\\ProyectoAsistencia.Tests.csproj",
-        "packagesPath": "C:\\Users\\angel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\angel\\Documents\\Calidad\\calidad x2\\PROYECTO\\snyx\\proyecto-si784-2024-ii-u2-contreras_paja_hernandez\\ProyectoAsistencia\\ProyectoAsistencia.Tests\\obj\\",
+        "projectPath": "/home/runner/work/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/ProyectoAsistencia/ProyectoAsistencia.Tests/ProyectoAsistencia.Tests.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/ProyectoAsistencia/ProyectoAsistencia.Tests/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\angel\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/runner/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\angel\\Documents\\Calidad\\calidad x2\\PROYECTO\\snyx\\proyecto-si784-2024-ii-u2-contreras_paja_hernandez\\ProyectoAsistencia\\ProyectoAsistencia\\ProyectoAsistencia.csproj": {
-                "projectPath": "C:\\Users\\angel\\Documents\\Calidad\\calidad x2\\PROYECTO\\snyx\\proyecto-si784-2024-ii-u2-contreras_paja_hernandez\\ProyectoAsistencia\\ProyectoAsistencia\\ProyectoAsistencia.csproj"
+              "/home/runner/work/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/ProyectoAsistencia/ProyectoAsistencia/ProyectoAsistencia.csproj": {
+                "projectPath": "/home/runner/work/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/ProyectoAsistencia/ProyectoAsistencia/ProyectoAsistencia.csproj"
               }
             }
           }
@@ -131,29 +128,26 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/runner/.dotnet/sdk/8.0.404/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\angel\\Documents\\Calidad\\calidad x2\\PROYECTO\\snyx\\proyecto-si784-2024-ii-u2-contreras_paja_hernandez\\ProyectoAsistencia\\ProyectoAsistencia\\ProyectoAsistencia.csproj": {
+    "/home/runner/work/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/ProyectoAsistencia/ProyectoAsistencia/ProyectoAsistencia.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\angel\\Documents\\Calidad\\calidad x2\\PROYECTO\\snyx\\proyecto-si784-2024-ii-u2-contreras_paja_hernandez\\ProyectoAsistencia\\ProyectoAsistencia\\ProyectoAsistencia.csproj",
+        "projectUniqueName": "/home/runner/work/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/ProyectoAsistencia/ProyectoAsistencia/ProyectoAsistencia.csproj",
         "projectName": "ProyectoAsistencia",
-        "projectPath": "C:\\Users\\angel\\Documents\\Calidad\\calidad x2\\PROYECTO\\snyx\\proyecto-si784-2024-ii-u2-contreras_paja_hernandez\\ProyectoAsistencia\\ProyectoAsistencia\\ProyectoAsistencia.csproj",
-        "packagesPath": "C:\\Users\\angel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\angel\\Documents\\Calidad\\calidad x2\\PROYECTO\\snyx\\proyecto-si784-2024-ii-u2-contreras_paja_hernandez\\ProyectoAsistencia\\ProyectoAsistencia\\obj\\",
+        "projectPath": "/home/runner/work/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/ProyectoAsistencia/ProyectoAsistencia/ProyectoAsistencia.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/proyecto-si784-2024-ii-u2-contreras_paja_hernandez/ProyectoAsistencia/ProyectoAsistencia/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\angel\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/runner/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -195,7 +189,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/runner/.dotnet/sdk/8.0.404/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
