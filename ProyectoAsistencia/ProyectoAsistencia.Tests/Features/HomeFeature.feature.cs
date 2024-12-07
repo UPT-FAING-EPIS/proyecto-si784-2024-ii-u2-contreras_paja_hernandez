@@ -35,8 +35,8 @@ namespace ProyectoAsistencia.Tests.Features
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Validar múltiples escenarios en Home y otras páginas", "  Como administrador\r\n  Quiero validar diferentes casos de uso en la aplicación\r\n" +
-                    "  Para asegurar que el sistema funcione correctamente", ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Validar múltiples escenarios en Home y otras páginas", "  Como administrador\n  Quiero validar diferentes casos de uso en la aplicación\n  " +
+                    "Para asegurar que el sistema funcione correctamente", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
