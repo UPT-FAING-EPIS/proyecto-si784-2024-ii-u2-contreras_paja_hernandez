@@ -21,20 +21,23 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Limpiar archivos de compilación y no rastreados
+    - name: Limpiar carpetas de compilación
       run: |
-        git rm -r --cached .
-        git clean -fdx
-        echo -e "bin/\nobj/\n*.user\n*.log" > .gitignore
+        git rm -rf --cached ProyectoAsistencia/ProyectoAsistencia.Tests/bin
+        git rm -rf --cached ProyectoAsistencia/ProyectoAsistencia.Tests/obj
+        git rm -rf --cached ProyectoAsistencia/ProyectoAsistencia/bin
+        git rm -rf --cached ProyectoAsistencia/ProyectoAsistencia/obj
+        echo -e "bin/\nobj/" > .gitignore
         git add .gitignore
-        git commit -m "Clean untracked files and add .gitignore" || true
+        git commit -m "Ignore bin and obj folders" || true
+        git push
 
     - name: Ejecutar pruebas y recolectar cobertura
       run: |
         cd ProyectoAsistencia/ProyectoAsistencia.Tests  
         dotnet test --collect:"XPlat Code Coverage"
       continue-on-error: true
-      
+
     - name: Generar reporte de Stryker
       run: |
         cd ProyectoAsistencia/ProyectoAsistencia.Tests
