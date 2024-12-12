@@ -57,17 +57,19 @@ jobs:
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
 
-        # Preparar rama gh-pages
-        git fetch origin
-        git checkout -B gh-pages origin/gh-pages || git checkout -B gh-pages
-        git rm -rf ./*
-        cp -r ../ReportesGH/* . || echo "No files to copy"
-        git add .
+        # Guardar carpeta ReportesGH temporalmente
+        mv ReportesGH /tmp/ReportesGH
 
-        # Confirmar cambios solo si hay archivos nuevos
-        if [ -n "$(git status --porcelain)" ]; then
-          git commit -m "Actualizar reportes de pruebas y mutaciones"
-          git push origin gh-pages --force
-        else
-          echo "No hay cambios que publicar."
-        fi
+        # Configurar la rama gh-pages
+        git fetch origin gh-pages || git checkout --orphan gh-pages
+        git checkout gh-pages || git checkout --orphan gh-pages
+        git rm -rf .  # Limpiar todo el contenido
+
+        # Mover los reportes de nuevo a la raíz
+        mv /tmp/ReportesGH/* .
+
+        # Subir solo ReportesGH
+        git add .
+        git commit -m "Actualizar reportes de pruebas y mutaciones" || echo "No hay cambios que confirmar"
+        git push origin gh-pages --force
+
