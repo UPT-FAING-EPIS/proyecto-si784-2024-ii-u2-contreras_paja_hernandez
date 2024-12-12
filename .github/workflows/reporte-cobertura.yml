@@ -47,6 +47,8 @@ jobs:
 
          # Copiar reporte de cobertura
          cp Reports/Cobertura/index.html ../../ReportesGH/ || echo "No coverage report found"
+         cp Reports/Cobertura/report.css ../../ReportesGH/ || echo "No coverage report found"
+        
     - name: Verificar contenido de ReportesGH
       run: |
         ls -R ReportesGH || echo "ReportesGH is empty"
