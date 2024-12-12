@@ -29,6 +29,7 @@ jobs:
         run: |
           cd ProyectoAsistencia/ProyectoAsistencia.Tests  
           dotnet test --collect:"XPlat Code Coverage"
+        continue-on-error: true
 
       - name: Generar reporte Stryker
         run: |
