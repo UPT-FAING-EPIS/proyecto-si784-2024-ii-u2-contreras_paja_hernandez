@@ -56,14 +56,28 @@ jobs:
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
 
+        # Verificar si ReportesGH existe y contiene archivos
+        if [ -d "ReportesGH" ] && [ "$(ls -A ReportesGH)" ]; then
+          echo "ReportesGH contiene archivos. Procediendo con la publicación."
+        else
+          echo "Error: ReportesGH está vacío o no existe."
+          exit 1
+        fi
+
         # Preparar rama gh-pages
         git fetch origin
         git checkout -B gh-pages origin/gh-pages || git checkout -B gh-pages
-        git rm -rf ./*
-        cp -r ../ReportesGH/* . || echo "No files to copy"
-        git add .
 
-        # Confirmar cambios solo si hay archivos nuevos
+        # Limpiar archivos no rastreados/modificados
+        git reset --hard
+        git clean -fd
+
+        # Copiar reportes
+        git rm -rf ./*
+        cp -r ReportesGH/* . || echo "Error al copiar archivos de ReportesGH"
+
+        # Confirmar y enviar cambios
+        git add .
         if [ -n "$(git status --porcelain)" ]; then
           git commit -m "Actualizar reportes de pruebas y mutaciones"
           git push origin gh-pages --force
