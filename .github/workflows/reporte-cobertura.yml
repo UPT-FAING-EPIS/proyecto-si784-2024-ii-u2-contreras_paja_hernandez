@@ -21,23 +21,24 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    # Ejecutar pruebas y generar reportes
     - name: Ejecutar pruebas y recolectar cobertura
       run: |
         cd ProyectoAsistencia/ProyectoAsistencia.Tests  
         dotnet test --collect:"XPlat Code Coverage"
       continue-on-error: true
-
+      
     - name: Generar reporte de Stryker
       run: |
         cd ProyectoAsistencia/ProyectoAsistencia.Tests
         dotnet tool install -g dotnet-stryker
         dotnet stryker
 
-        # Copiar reporte de mutaciones a ReportesGH
+        # Copiar reporte de mutaciones
         mkdir -p ../../ReportesGH
-        latest_folder=$(ls -td StrykerOutput/* | head -n 1)
-        cp "$latest_folder/reports/mutation-report.html" ../../ReportesGH/
+        if [ -d "StrykerOutput" ]; then
+          latest_folder=$(ls -td StrykerOutput/* | head -n 1)
+          cp "$latest_folder/reports/mutation-report.html" ../../ReportesGH/ || echo "No Stryker report found"
+        fi
 
     - name: Generar reporte de cobertura
       run: |
@@ -45,11 +46,14 @@ jobs:
         dotnet tool install -g dotnet-reportgenerator-globaltool
         reportgenerator "-reports:TestResults/**/coverage.cobertura.xml" "-targetdir:Reports/Cobertura" -reporttypes:HTML
         
-        # Copiar reporte de cobertura a ReportesGH
+        # Copiar reporte de cobertura
         mkdir -p ../../ReportesGH
-        cp Reports/Cobertura/index.html ../../ReportesGH/
+        cp Reports/Cobertura/index.html ../../ReportesGH/ || echo "No coverage report found"
 
-    # Publicar en GitHub Pages
+    - name: Verificar contenido de ReportesGH
+      run: |
+        ls -R ReportesGH || echo "ReportesGH is empty"
+
     - name: Publicar reportes en GitHub Pages
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -61,9 +65,9 @@ jobs:
         git fetch origin
         git checkout -B gh-pages origin/gh-pages || git checkout -B gh-pages
         git rm -rf ./*
-        cp -r ../ReportesGH/* .
+        cp -r ../ReportesGH/* . || echo "No files to copy"
         git add .
-        
+
         # Confirmar cambios solo si hay archivos nuevos
         if [ -n "$(git status --porcelain)" ]; then
           git commit -m "Actualizar reportes de pruebas y mutaciones"
