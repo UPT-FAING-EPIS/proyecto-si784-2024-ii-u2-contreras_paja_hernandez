@@ -21,8 +21,16 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Listar archivos para verificar la estructura
-      run: ls -R
+    - name: Limpiar carpetas de compilación
+      run: |
+        git rm -rf --cached ProyectoAsistencia/ProyectoAsistencia.Tests/bin
+        git rm -rf --cached ProyectoAsistencia/ProyectoAsistencia.Tests/obj
+        git rm -rf --cached ProyectoAsistencia/ProyectoAsistencia/bin
+        git rm -rf --cached ProyectoAsistencia/ProyectoAsistencia/obj
+        echo -e "bin/\nobj/" > .gitignore
+        git add .gitignore
+        git commit -m "Ignore bin and obj folders" || true
+        git push
 
     - name: Ejecutar pruebas y recolectar cobertura
       run: |
@@ -30,33 +38,24 @@ jobs:
         dotnet test --collect:"XPlat Code Coverage"
       continue-on-error: true
 
-    - name: Verificar archivos generados
-      run: ls -R ProyectoAsistencia/ProyectoAsistencia.Tests/TestResults
-
-    - name: Ejecutar Stryker y generar reporte de mutaciones
+    - name: Generar reporte de Stryker
       run: |
         cd ProyectoAsistencia/ProyectoAsistencia.Tests
         dotnet tool install -g dotnet-stryker
         dotnet stryker
 
-        # Verificar si se generó el reporte de mutaciones
-        latest_folder=$(ls -td StrykerOutput/* | head -n 1)
-        if [ ! -f "$latest_folder/reports/mutation-report.html" ]; then
-          echo "Error: El reporte de mutaciones no se generó."
-          exit 1
-        fi
-
-        # Crear carpeta "ReportesGH" en la raíz del proyecto
+        # Copiar reporte de mutaciones a ReportesGH
         mkdir -p ../../ReportesGH
+        latest_folder=$(ls -td StrykerOutput/* | head -n 1)
         cp "$latest_folder/reports/mutation-report.html" ../../ReportesGH/
 
-    - name: Generar reportes de cobertura
+    - name: Generar reporte de cobertura
       run: |
         cd ProyectoAsistencia/ProyectoAsistencia.Tests
         dotnet tool install -g dotnet-reportgenerator-globaltool
         reportgenerator "-reports:TestResults/**/coverage.cobertura.xml" "-targetdir:Reports/Cobertura" -reporttypes:HTML
-
-        # Copiar el reporte de cobertura a la carpeta "ReportesGH"
+        
+        # Copiar reporte de cobertura a ReportesGH
         mkdir -p ../../ReportesGH
         cp Reports/Cobertura/index.html ../../ReportesGH/
 
@@ -67,7 +66,7 @@ jobs:
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
 
-        # Copiar el contenido de la carpeta ReportesGH a la raíz de gh-pages
+        # Copiar ReportesGH a gh-pages
         git fetch origin
         git checkout -B gh-pages
         git rm -rf ./*
