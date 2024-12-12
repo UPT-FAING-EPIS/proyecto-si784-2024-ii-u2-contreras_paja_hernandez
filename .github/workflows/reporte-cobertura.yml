@@ -1,4 +1,4 @@
-name: Pruebas, Cobertura y Reportes en GitHub Pages
+name: Pruebas y Publicación en GitHub Pages
 
 on: 
   push:
@@ -13,85 +13,65 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: '8.0.x'
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '8.0.x'
 
-      - name: Listar archivos para verificar la estructura
-        run: ls -R
+    - name: Listar archivos para verificar la estructura
+      run: ls -R
 
-      # Ejecutar pruebas unitarias con cobertura
-      - name: Ejecutar pruebas y recolectar cobertura
-        run: |
-          cd ProyectoAsistencia/ProyectoAsistencia.Tests  
-          dotnet test --collect:"XPlat Code Coverage"
+    - name: Ejecutar pruebas y recolectar cobertura
+      run: |
+        cd ProyectoAsistencia/ProyectoAsistencia.Tests  
+        dotnet test --collect:"XPlat Code Coverage"
+      continue-on-error: true
 
-          # Verificar si el archivo de cobertura se generó
-          if [ ! -f "TestResults/**/coverage.cobertura.xml" ]; then
-            echo "Error: El archivo de cobertura no se generó."
-            exit 1
-          fi
-        continue-on-error: true
+    - name: Verificar archivos generados
+      run: ls -R ProyectoAsistencia/ProyectoAsistencia.Tests/TestResults
 
+    - name: Ejecutar Stryker y generar reporte de mutaciones
+      run: |
+        cd ProyectoAsistencia/ProyectoAsistencia.Tests
+        dotnet tool install -g dotnet-stryker
+        dotnet stryker
 
-      # Generar reporte Stryker
-      - name: Generar reporte Stryker
-        run: |
-          cd ProyectoAsistencia/ProyectoAsistencia.Tests
-          dotnet tool install -g dotnet-stryker
-          dotnet stryker
+        # Verificar si se generó el reporte de mutaciones
+        latest_folder=$(ls -td StrykerOutput/* | head -n 1)
+        if [ ! -f "$latest_folder/reports/mutation-report.html" ]; then
+          echo "Error: El reporte de mutaciones no se generó."
+          exit 1
+        fi
 
-          # Validar generación de reportes Stryker
-          latest_folder=$(ls -td StrykerOutput/* | head -n 1)
-          if [ ! -f "$latest_folder/reports/mutation-report.html" ]; then
-            echo "Error: El reporte Stryker no se generó correctamente."
-            exit 1
-          fi
+        # Crear carpeta "ReportesGH" en la raíz del proyecto
+        mkdir -p ../../ReportesGH
+        cp "$latest_folder/reports/mutation-report.html" ../../ReportesGH/
 
-          mkdir -p Reports/Stryker
-          cp "$latest_folder/reports/mutation-report.html" Reports/Stryker/
+    - name: Generar reportes de cobertura
+      run: |
+        cd ProyectoAsistencia/ProyectoAsistencia.Tests
+        dotnet tool install -g dotnet-reportgenerator-globaltool
+        reportgenerator "-reports:TestResults/**/coverage.cobertura.xml" "-targetdir:Reports/Cobertura" -reporttypes:HTML
 
-      # Generar reporte de cobertura
-      - name: Generar reporte de cobertura
-        run: |
-          cd ProyectoAsistencia/ProyectoAsistencia.Tests
-          dotnet tool install -g dotnet-reportgenerator-globaltool
-          reportgenerator "-reports:TestResults/**/coverage.cobertura.xml" "-targetdir:Reports/Cobertura" -reporttypes:HTML
+        # Copiar el reporte de cobertura a la carpeta "ReportesGH"
+        mkdir -p ../../ReportesGH
+        cp Reports/Cobertura/index.html ../../ReportesGH/
 
-          # Validar generación de reporte de cobertura
-          if [ ! -f "Reports/Cobertura/index.html" ]; then
-            echo "Error: El reporte de cobertura no se generó correctamente."
-            exit 1
-          fi
+    - name: Publicar en GitHub Pages
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
 
-      # Preparar y verificar carpeta public
-      - name: Preparar carpeta public
-        run: |
-          mkdir -p public
-          cp -r ProyectoAsistencia/ProyectoAsistencia.Tests/Reports/* public/
-
-          # Verificar archivos en la carpeta public
-          if [ -z "$(ls -A public)" ]; then
-            echo "Error: La carpeta public está vacía."
-            exit 1
-          fi
-
-      # Publicar ambos reportes en GitHub Pages
-      - name: Publicar en GitHub Pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-
-          git fetch origin
-          git checkout -B gh-pages
-          git rm -rf ./*
-          cp -r public/* .
-          git add .
-          git commit -m "Actualizar reportes de pruebas y cobertura"
-          git push origin gh-pages --force
+        # Copiar el contenido de la carpeta ReportesGH a la raíz de gh-pages
+        git fetch origin
+        git checkout -B gh-pages
+        git rm -rf ./*
+        cp -r ../ReportesGH/* .
+        git add .
+        git commit -m "Add test and mutation reports"
+        git push origin gh-pages --force
