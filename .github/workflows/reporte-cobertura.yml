@@ -21,20 +21,21 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Ejecutar pruebas y recolectar cobertura
+    - name: Ejecutar pruebas y recolectar cobertura y mutaciones
       run: |
         cd ProyectoAsistencia/ProyectoAsistencia.Tests  
         dotnet test --collect:"XPlat Code Coverage"
 
         dotnet tool install -g dotnet-reportgenerator-globaltool
         reportgenerator "-reports:TestResults/**/coverage.cobertura.xml" "-targetdir:Reports/Cobertura" -reporttypes:HTML
-      continue-on-error: true
 
-    - name: Generar reporte de Stryker
-      run: |
-        cd ProyectoAsistencia/ProyectoAsistencia.Tests
         dotnet tool install -g dotnet-stryker
         dotnet stryker
+      continue-on-error: true
+
+    - name: Mover a carpeta
+      run: |
+        cd ProyectoAsistencia/ProyectoAsistencia.Tests
   
         # Copiar reporte de mutaciones
         mkdir -p ../../ReportesGH
@@ -56,28 +57,14 @@ jobs:
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
 
-        # Verificar si ReportesGH existe y contiene archivos
-        if [ -d "ReportesGH" ] && [ "$(ls -A ReportesGH)" ]; then
-          echo "ReportesGH contiene archivos. Procediendo con la publicación."
-        else
-          echo "Error: ReportesGH está vacío o no existe."
-          exit 1
-        fi
-
         # Preparar rama gh-pages
         git fetch origin
         git checkout -B gh-pages origin/gh-pages || git checkout -B gh-pages
-
-        # Limpiar archivos no rastreados/modificados
-        git reset --hard
-        git clean -fd
-
-        # Copiar reportes
         git rm -rf ./*
-        cp -r ReportesGH/* . || echo "Error al copiar archivos de ReportesGH"
-
-        # Confirmar y enviar cambios
+        cp -r ../ReportesGH/* . || echo "No files to copy"
         git add .
+
+        # Confirmar cambios solo si hay archivos nuevos
         if [ -n "$(git status --porcelain)" ]; then
           git commit -m "Actualizar reportes de pruebas y mutaciones"
           git push origin gh-pages --force
